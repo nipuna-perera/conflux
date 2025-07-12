@@ -6,7 +6,6 @@ package postgres
 import (
 	"context"
 	"database/sql"
-	"time"
 
 	"configarr/internal/models"
 )

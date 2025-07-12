@@ -1,0 +1,39 @@
+# Go binaries
+/backend/cmd/server/server
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test files
+*.test
+*.out
+
+# Go module cache
+/go/pkg/mod/
+
+# Node.js dependencies
+/frontend/node_modules/
+/frontend/.svelte-kit/
+/frontend/build/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Database files
+*.db
+*.sqlite
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

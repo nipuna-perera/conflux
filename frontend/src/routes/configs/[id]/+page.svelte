@@ -7,11 +7,13 @@
 	import { auth } from '$lib/stores/auth';
 	import { editorStore } from '$lib/stores/config';
 	import { configAPI } from '$lib/utils/configApi';
-	import type { UserConfig, ConfigFormat, ConfigVersion } from '$lib/types/config';
+	import type { ConfigFormat } from '$lib/types/config';
 	
 	// Redirect if not authenticated
-	$: if (!$auth.isLoading && !$auth.isAuthenticated) {
-		goto('/auth/login');
+	$: {
+		if (!$auth.isLoading && !$auth.isAuthenticated) {
+			goto('/auth/login');
+		}
 	}
 	
 	const configId = parseInt($page.params.id);
@@ -238,7 +240,7 @@
 					<div>
 						<div class="block text-sm font-medium text-gray-700 mb-1">Format Conversion</div>
 						<div class="grid grid-cols-2 gap-2">
-							{#each formatOptions as format}
+							{#each formatOptions as format (format)}
 								<button
 									class="px-3 py-2 text-sm rounded-md border {$editorStore.format === format ? 'bg-blue-100 border-blue-300 text-blue-700' : 'bg-gray-50 border-gray-300 text-gray-700 hover:bg-gray-100'}"
 									on:click={() => convertFormat(format)}
@@ -278,7 +280,7 @@
 						</div>
 						<div class="max-h-96 overflow-y-auto">
 							<div class="divide-y divide-gray-200">
-								{#each $editorStore.versions as version}
+								{#each $editorStore.versions as version (version.id)}
 									<div class="p-4 hover:bg-gray-50">
 										<div class="flex items-center justify-between">
 											<div class="flex-1 min-w-0">
@@ -341,6 +343,7 @@
 				<button
 					class="text-gray-400 hover:text-gray-500"
 					on:click={() => showVersionComparison = false}
+					aria-label="Close version comparison"
 				>
 					<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

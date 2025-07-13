@@ -5,7 +5,7 @@ import type { HandleClientError } from '@sveltejs/kit';
 
 // HandleClientError manages client-side error reporting
 // Provides graceful error handling and user feedback
-export const handleError: HandleClientError = ({ error, event }) => {
+export const handleError: HandleClientError = ({ error, event: _event }) => {
 	// Client-side error handling:
 	// - Log errors to monitoring service
 	// - Show user-friendly error messages

@@ -1,24 +1,25 @@
 // API proxy to forward requests to the backend
 // This handles cases where the frontend needs to proxy API calls
 import { json, error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
 const BACKEND_URL = 'http://backend:8080/api';
 
-export async function GET({ params, url, request }: { params: any, url: URL, request: Request }) {
+export const GET: RequestHandler = async ({ params, url, request }) => {
 	return proxyRequest(request, params.path, url);
-}
+};
 
-export async function POST({ params, url, request }: { params: any, url: URL, request: Request }) {
+export const POST: RequestHandler = async ({ params, url, request }) => {
 	return proxyRequest(request, params.path, url);
-}
+};
 
-export async function PUT({ params, url, request }: { params: any, url: URL, request: Request }) {
+export const PUT: RequestHandler = async ({ params, url, request }) => {
 	return proxyRequest(request, params.path, url);
-}
+};
 
-export async function DELETE({ params, url, request }: { params: any, url: URL, request: Request }) {
+export const DELETE: RequestHandler = async ({ params, url, request }) => {
 	return proxyRequest(request, params.path, url);
-}
+};
 
 async function proxyRequest(request: Request, path: string, url: URL) {
 	try {

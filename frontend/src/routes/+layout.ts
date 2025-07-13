@@ -3,7 +3,7 @@
 // Handles universal application setup and data fetching
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async ({ fetch, url }) => {
+export const load: LayoutLoad = async ({ fetch: _fetch, url: _url }) => {
 	// Global layout data loading:
 	// - Load application configuration
 	// - Fetch user preferences

@@ -3,7 +3,6 @@
 // Abstracts API calls and manages request/response transformation
 import type { LoginRequest, RegisterRequest, AuthResponse } from '$lib/types/auth';
 import type { User, UpdateProfileData } from '$lib/types/user';
-import { env } from '$env/dynamic/public';
 
 export class ApiClient {
 	private baseUrl: string;
@@ -14,32 +13,42 @@ export class ApiClient {
 	}
 	
 	private getApiBaseUrl(): string {
-		console.log('API client: Getting base URL, window exists:', typeof window !== 'undefined');
+		if (import.meta.env.DEV) {
+			console.log('API client: Getting base URL, window exists:', typeof window !== 'undefined');
+		}
 		
 		// For browser context, detect environment and use appropriate URL
 		if (typeof window !== 'undefined') {
 			const hostname = window.location.hostname;
-			console.log('API client: Browser hostname:', hostname);
+			if (import.meta.env.DEV) {
+				console.log('API client: Browser hostname:', hostname);
+			}
 			
 			// If hostname is localhost, we're in local development
 			if (hostname === 'localhost' || hostname === '127.0.0.1') {
-				console.log('API client: Local development mode - using localhost:8080');
+				if (import.meta.env.DEV) {
+					console.log('API client: Local development mode - using localhost:8080');
+				}
 				return 'http://localhost:8080/api';
 			} else {
 				// If not localhost, we're likely in Docker container accessing via host
-				console.log('API client: Docker container mode - using localhost:8080');
+				if (import.meta.env.DEV) {
+					console.log('API client: Docker container mode - using localhost:8080');
+				}
 				return 'http://localhost:8080/api';
 			}
 		}
 		
 		// For server-side rendering in Docker, use container service name
-		console.log('API client: Server-side rendering in Docker - using backend:8080');
+		if (import.meta.env.DEV) {
+			console.log('API client: Server-side rendering in Docker - using backend:8080');
+		}
 		return 'http://backend:8080/api';
 	}
 	
 	// Generic HTTP request method with authentication
 	// Automatically includes JWT tokens and handles common errors
-	async request(endpoint: string, options: RequestInit = {}): Promise<any> {
+	async request<T = unknown>(endpoint: string, options: RequestInit = {}): Promise<T> {
 		// API request implementation:
 		// - Add authentication headers
 		// - Handle request/response JSON transformation
@@ -47,7 +56,9 @@ export class ApiClient {
 		// - Provide consistent error handling
 		
 		const url = `${this.baseUrl}${endpoint}`;
-		console.log(`API client: Making request to ${url}`);
+		if (import.meta.env.DEV) {
+			console.log(`API client: Making request to ${url}`);
+		}
 		const token = localStorage.getItem('auth_token');
 		
 		const headers: Record<string, string> = {

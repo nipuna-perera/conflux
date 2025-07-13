@@ -10,8 +10,10 @@
 	import type { ConfigFormat } from '$lib/types/config';
 	
 	// Redirect if not authenticated
-	$: if (!$auth.isLoading && !$auth.isAuthenticated) {
-		goto('/auth/login');
+	$: {
+		if (!$auth.isLoading && !$auth.isAuthenticated) {
+			goto('/auth/login');
+		}
 	}
 	
 	let searchQuery = '';
@@ -155,7 +157,7 @@
 						on:change={handleTemplateChange}
 					>
 						<option value="">All Templates</option>
-						{#each $templatesStore.templates as template}
+						{#each $templatesStore.templates as template (template.id)}
 							<option value={template.id}>{template.display_name}</option>
 						{/each}
 					</select>
@@ -170,7 +172,7 @@
 					<div class="h-4 bg-gray-200 rounded w-1/4 animate-pulse"></div>
 				</div>
 				<div class="divide-y divide-gray-200">
-					{#each Array(5) as _}
+					{#each Array(5) as _, i (i)}
 						<div class="px-6 py-4 animate-pulse">
 							<div class="flex items-center justify-between">
 								<div class="flex-1">
@@ -208,7 +210,7 @@
 					</h3>
 				</div>
 				<div class="divide-y divide-gray-200">
-					{#each $configsStore.configs as config}
+					{#each $configsStore.configs as config (config.id)}
 						<div class="px-6 py-4 hover:bg-gray-50">
 							<div class="flex items-center justify-between">
 								<div class="flex-1 min-w-0">

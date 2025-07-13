@@ -1,0 +1,186 @@
+# GoLangCI-Lint configuration for Conflux backend
+# Focused on essential code quality, security, and performance
+
+run:
+  # Timeout for analysis
+  timeout: 5m
+  
+  # Exit code when at least one issue was found
+  issues-exit-code: 1
+  
+  # Include test files in analysis
+  tests: true
+
+# Output configuration
+output:
+  # Colored output
+  color: always
+  
+  # Print lines of code with issue
+  print-issued-lines: true
+  
+  # Print linter name in issue line
+  print-linter-name: true
+  
+  # Sorts results by: file, line, column
+  sort-results: true
+
+# Linters configuration
+linters:
+  # Disable default linters
+  disable-all: true
+  
+  # Enable essential linters for quality and security
+  enable:
+    # Security & Bug Detection
+    - gosec          # Security analysis
+    - errcheck       # Check for unchecked errors
+    - govet          # Official Go tool vet (includes fieldalignment)
+    - ineffassign    # Detect ineffectual assignments
+    - unused         # Find unused constants, variables, functions and types
+    
+    # Code Quality
+    - revive         # Fast, configurable, extensible linter (replaces golint)
+    - gocritic       # Comprehensive Go source code linter
+    - typecheck      # Parse and type-check Go code
+    - unconvert      # Remove unnecessary type conversions
+    - misspell       # Find commonly misspelled words
+    
+    # Performance
+    - prealloc       # Find slice declarations not pre-allocated
+    - bodyclose      # Check whether HTTP response body is closed successfully
+    - rowserrcheck   # Check whether Err of rows is checked successfully
+    - sqlclosecheck  # Check that sql.Rows and sql.Stmt are closed
+    - noctx          # Find sending HTTP request without context.Context
+    
+    # Style & Formatting
+    - gofmt          # Check if code is gofmt-ed
+    - goimports      # Check if imports are organized properly
+    - stylecheck     # Stylecheck is a replacement for golint
+    
+    # Complexity & Maintainability  
+    - gocyclo        # Compute cyclomatic complexities
+    - funlen         # Detect long functions
+    - lll            # Report long lines
+    - goconst        # Find repeated strings that could be constants
+
+# Linters settings
+linters-settings:
+  # GoSec configuration for security analysis
+  gosec:
+    excludes:
+      - G204  # Allow subprocess execution (needed for some operations)
+      - G114  # Use of net/http serve function (acceptable for development)
+      - G101  # Allow dev-secret-key pattern for development
+  
+  # Gocritic configuration
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+    disabled-checks:
+      - commentedOutCode     # Allow commented code for documentation
+      - exitAfterDefer      # Allow log.Fatal in defer for now
+      - returnAfterHttpError # Allow missing return after http.Error
+  
+  # Revive configuration (replaces golint)
+  revive:
+    severity: warning
+    rules:
+      - name: unused-parameter
+        severity: warning
+        disabled: true  # Too noisy for HTTP handlers
+      - name: blank-imports
+        severity: warning
+        disabled: true  # Allow blank imports for database drivers
+  
+  # Gocyclo configuration (cyclomatic complexity)
+  gocyclo:
+    min-complexity: 15  # Reasonable complexity threshold
+  
+  # Function length
+  funlen:
+    lines: 120        # Maximum function length (slightly higher for handlers)
+    statements: 60    # Maximum statements per function
+  
+  # Line length
+  lll:
+    line-length: 130  # Slightly longer for better readability
+  
+  # Goconst configuration
+  goconst:
+    min-len: 3        # Minimum string length to check
+    min-occurrences: 4 # Minimum occurrences to trigger (higher threshold)
+    ignore-tests: true # Ignore test files for string constants
+  
+  # Prealloc configuration
+  prealloc:
+    simple: true      # Check only simple cases
+    range-loops: true # Check range loops
+    for-loops: false  # Don't check for loops (can be noisy)
+  
+  # Errcheck configuration
+  errcheck:
+    # Check type assertions
+    check-type-assertions: true
+    # Check blank assignments
+    check-blank: true
+    # Functions to exclude from error checking
+    exclude-functions:
+      - fmt.Print.*
+      - fmt.Fprint.*
+
+# Issues configuration
+issues:
+  # Show only new issues in git diff
+  new: false
+  
+  # Maximum issues count per one linter
+  max-issues-per-linter: 50
+  
+  # Maximum count of issues with the same text
+  max-same-issues: 10
+  
+  # List of regexps of issue texts to exclude
+  exclude:
+    # Exclude some common false positives
+    - "should have a package comment"
+    - "don't use an underscore in package name"
+  
+  # Exclude rules by path
+  exclude-rules:
+    # Exclude some linters from running on tests files
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - gosec
+        - funlen
+        - goconst
+        
+    # Exclude some linters from running on migration files
+    - path: migrations/
+      linters:
+        - lll      # Migration SQL can have long lines
+        - gosec    # Migration files may have SQL concatenation
+        
+    # Exclude some linters from cmd/server/main.go (entry point)
+    - path: cmd/server/main\.go
+      linters:
+        - funlen   # Main function can be longer
+        
+    # Exclude some linters from dev utilities
+    - path: genhash\.go
+      linters:
+        - gosec    # Dev utility, security less critical
+        
+    # Allow some patterns in internal/service/dev.go
+    - path: internal/service/dev\.go
+      linters:
+        - gosec    # Dev service, hardcoded secrets OK
+
+# Service configuration  
+service:
+  # Use golangci-lint-action on GitHub Actions
+  golangci-lint-version: 1.54.x

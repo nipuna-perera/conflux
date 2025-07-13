@@ -36,13 +36,20 @@ func (h *HealthHandler) CheckHealth(w http.ResponseWriter, r *http.Request) {
 	if h.db != nil {
 		if err := h.db.Ping(); err != nil {
 			response["status"] = "unhealthy"
-			response["checks"].(map[string]string)["database"] = "failed: " + err.Error()
+			if checks, ok := response["checks"].(map[string]string); ok {
+				checks["database"] = "failed: " + err.Error()
+			}
 			w.WriteHeader(http.StatusServiceUnavailable)
 		} else {
-			response["checks"].(map[string]string)["database"] = "healthy"
+			if checks, ok := response["checks"].(map[string]string); ok {
+				checks["database"] = "healthy"
+			}
 		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		// Log error but headers are already written
+		return
+	}
 }

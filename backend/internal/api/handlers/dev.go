@@ -49,7 +49,10 @@ func (h *DevHandler) GetDevToken(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		// Log error but headers are already written
+		return
+	}
 }
 
 // CreateDevUser ensures the development user exists
@@ -76,5 +79,8 @@ func (h *DevHandler) CreateDevUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		// Log error but headers are already written
+		return
+	}
 }

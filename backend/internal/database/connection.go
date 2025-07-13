@@ -13,6 +13,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Database driver constants
+const (
+	DriverMySQL    = "mysql"
+	DriverPostgres = "postgres"
+)
+
 // ConnectionFactory creates database connections based on configuration
 type ConnectionFactory struct {
 	config *config.Config
@@ -30,8 +36,8 @@ func (cf *ConnectionFactory) NewConnection() (*sql.DB, error) {
 	var driverName string
 
 	switch cf.config.DBType {
-	case "mysql":
-		driverName = "mysql"
+	case DriverMySQL:
+		driverName = DriverMySQL
 		dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 			cf.config.DBUser,
 			cf.config.DBPassword,
@@ -39,8 +45,8 @@ func (cf *ConnectionFactory) NewConnection() (*sql.DB, error) {
 			cf.config.DBPort,
 			cf.config.DBName,
 		)
-	case "postgres":
-		driverName = "postgres"
+	case DriverPostgres:
+		driverName = DriverPostgres
 		dsn = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 			cf.config.DBHost,
 			cf.config.DBPort,

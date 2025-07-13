@@ -35,8 +35,14 @@ func (h *ConfigHandler) GetTemplates(w http.ResponseWriter, r *http.Request) {
 	// Parse query parameters
 	category := r.URL.Query().Get("category")
 	search := r.URL.Query().Get("search")
-	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
-	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	page, err := strconv.Atoi(r.URL.Query().Get("page"))
+	if err != nil {
+		page = 1
+	}
+	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+	if err != nil {
+		limit = 20
+	}
 
 	if page < 1 {
 		page = 1
@@ -156,8 +162,14 @@ func (h *ConfigHandler) GetUserConfigs(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
-	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	page, err := strconv.Atoi(r.URL.Query().Get("page"))
+	if err != nil {
+		page = 1
+	}
+	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+	if err != nil {
+		limit = 20
+	}
 
 	if page < 1 {
 		page = 1
@@ -265,7 +277,7 @@ func (h *ConfigHandler) UpdateUserConfig(w http.ResponseWriter, r *http.Request)
 		Format     *models.ConfigFormat `json:"format,omitempty"`
 	}
 
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+	if decodeErr := json.NewDecoder(r.Body).Decode(&req); decodeErr != nil {
 		utils.ErrorResponse(w, http.StatusBadRequest, "Invalid request body")
 		return
 	}
@@ -332,8 +344,14 @@ func (h *ConfigHandler) GetConfigVersions(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
-	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	page, err := strconv.Atoi(r.URL.Query().Get("page"))
+	if err != nil {
+		page = 1
+	}
+	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+	if err != nil {
+		limit = 10
+	}
 
 	if page < 1 {
 		page = 1
@@ -507,7 +525,12 @@ func (h *ConfigHandler) ExportConfig(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", contentType)
 	w.Header().Set("Content-Disposition", "attachment; filename=config."+string(format))
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(content))
+
+	if _, err := w.Write([]byte(content)); err != nil {
+		// Log error - response headers are already written so we can't send error response
+		// In production, you might want to log this error properly
+		return
+	}
 }
 
 // Helper function to extract user ID from request context

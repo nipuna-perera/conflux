@@ -21,7 +21,7 @@ func Recovery(next http.Handler) http.Handler {
 				// - Prevent response from being written multiple times
 
 				log.Printf("Panic: %v", err)
-				
+
 				// Check if headers have already been written
 				if w.Header().Get("Content-Type") == "" {
 					http.Error(w, "Internal Server Error", http.StatusInternalServerError)

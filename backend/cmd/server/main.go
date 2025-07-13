@@ -7,8 +7,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/handlers"
-	"github.com/joho/godotenv"
 	"configarr/internal/api"
 	apiHandlers "configarr/internal/api/handlers"
 	"configarr/internal/config"
@@ -16,6 +14,9 @@ import (
 	"configarr/internal/repository/mysql"
 	"configarr/internal/repository/postgres"
 	"configarr/internal/service"
+
+	"github.com/gorilla/handlers"
+	"github.com/joho/godotenv"
 )
 
 func main() {

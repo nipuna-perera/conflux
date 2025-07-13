@@ -22,8 +22,8 @@ type AuthRepository interface {
 
 // AuthService handles authentication business logic
 type AuthService struct {
-	userRepo    UserRepository
-	authRepo    AuthRepository
+	userRepo     UserRepository
+	authRepo     AuthRepository
 	tokenManager *jwt.TokenManager
 }
 
@@ -31,7 +31,7 @@ type AuthService struct {
 func NewAuthService(userRepo UserRepository, authRepo AuthRepository) *AuthService {
 	// Initialize token manager with a default secret (should come from config)
 	tokenManager := jwt.NewTokenManager("default-secret", "configarr")
-	
+
 	return &AuthService{
 		userRepo:     userRepo,
 		authRepo:     authRepo,

@@ -7,9 +7,10 @@ import (
 	"database/sql"
 	"fmt"
 
+	"configarr/internal/config"
+
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-	"configarr/internal/config"
 )
 
 // ConnectionFactory creates database connections based on configuration

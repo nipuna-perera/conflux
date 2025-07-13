@@ -40,7 +40,7 @@ func (r *UserRepository) Create(ctx context.Context, user *models.User) error {
 	user.ID = int(id)
 	user.CreatedAt = time.Now()
 	user.UpdatedAt = time.Now()
-	
+
 	return nil
 }
 

@@ -6,9 +6,10 @@ package api
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"configarr/internal/api/handlers"
 	"configarr/internal/api/middleware"
+
+	"github.com/gorilla/mux"
 )
 
 // SetupRoutes configures all HTTP routes and middleware

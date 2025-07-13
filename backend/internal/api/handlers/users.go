@@ -7,9 +7,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
 	"configarr/internal/service"
 	"configarr/pkg/utils"
+
+	"github.com/gorilla/mux"
 )
 
 // UserHandler handles user-related HTTP requests

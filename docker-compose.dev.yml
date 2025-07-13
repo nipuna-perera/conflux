@@ -1,0 +1,32 @@
+# Docker Compose override for development environment
+# Provides hot reload, proper networking, and development-optimized configuration
+services:
+  # Frontend development service with Vite dev server
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"  # Map to Vite dev server port
+    environment:
+      - PUBLIC_API_URL=http://localhost:8080  # Browser can access backend on host
+    volumes:
+      - ./frontend:/app  # Mount source for hot reload
+      - /app/node_modules  # Preserve node_modules
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  # Backend with development CORS settings
+  backend:
+    environment:
+      - DB_TYPE=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=appdb
+      - DB_USER=appuser
+      - DB_PASSWORD=apppassword
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000  # Allow both dev and prod ports
+      - ENVIRONMENT=development

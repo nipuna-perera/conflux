@@ -10,8 +10,8 @@ help: ## Show this help message
 	@echo 'Targets:'
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-dev: ## Start development environment
-	docker-compose up --build
+dev: ## Start development environment with hot reload
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 build: ## Build production images
 	docker-compose -f docker-compose.prod.yml build

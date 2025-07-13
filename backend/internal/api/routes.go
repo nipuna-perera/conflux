@@ -18,6 +18,7 @@ func SetupRoutes(
 	userHandler *handlers.UserHandler,
 	authHandler *handlers.AuthHandler,
 	healthHandler *handlers.HealthHandler,
+	devHandler *handlers.DevHandler,
 ) *mux.Router {
 	router := mux.NewRouter()
 
@@ -46,6 +47,11 @@ func SetupRoutes(
 	// Logout endpoint (requires auth)
 	logoutHandler := middleware.AuthMiddleware(http.HandlerFunc(authHandler.Logout))
 	auth.Handle("/logout", logoutHandler).Methods("POST")
+
+	// Development endpoints (only available in development environment)
+	dev := router.PathPrefix("/dev").Subrouter()
+	dev.HandleFunc("/token", devHandler.GetDevToken).Methods("POST")
+	dev.HandleFunc("/user", devHandler.CreateDevUser).Methods("POST")
 
 	return router
 }

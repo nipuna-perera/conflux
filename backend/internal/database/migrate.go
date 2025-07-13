@@ -109,6 +109,21 @@ func (m *Migrator) runMySQLMigrations() error {
 					INDEX idx_user_id (user_id)
 				)`,
 		},
+		{
+			version: "004_seed_dev_user",
+			query: `
+				INSERT INTO users (email, password_hash, first_name, last_name, created_at, updated_at)
+				SELECT 
+					'dev@conflux.local',
+					'$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+					'Dev',
+					'User',
+					NOW(),
+					NOW()
+				WHERE NOT EXISTS (
+					SELECT 1 FROM users WHERE email = 'dev@conflux.local'
+				)`,
+		},
 	}
 
 	return m.runMigrations(migrations)
@@ -160,6 +175,21 @@ func (m *Migrator) runPostgreSQLMigrations() error {
 				
 				CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token);
 				CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);`,
+		},
+		{
+			version: "004_seed_dev_user",
+			query: `
+				INSERT INTO users (email, password_hash, first_name, last_name, created_at, updated_at)
+				SELECT 
+					'dev@conflux.local',
+					'$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+					'Dev',
+					'User',
+					NOW(),
+					NOW()
+				WHERE NOT EXISTS (
+					SELECT 1 FROM users WHERE email = 'dev@conflux.local'
+				)`,
 		},
 	}
 

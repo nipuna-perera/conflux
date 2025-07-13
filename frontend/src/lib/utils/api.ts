@@ -3,12 +3,38 @@
 // Abstracts API calls and manages request/response transformation
 import type { LoginRequest, RegisterRequest, AuthResponse } from '$lib/types/auth';
 import type { User, UpdateProfileData } from '$lib/types/user';
+import { env } from '$env/dynamic/public';
 
 export class ApiClient {
 	private baseUrl: string;
 	
-	constructor(baseUrl: string = '/api') {
-		this.baseUrl = baseUrl;
+	constructor(baseUrl?: string) {
+		// Use environment variable for backend URL, fallback to proxy in development
+		this.baseUrl = baseUrl || this.getApiBaseUrl();
+	}
+	
+	private getApiBaseUrl(): string {
+		console.log('API client: Getting base URL, window exists:', typeof window !== 'undefined');
+		
+		// For browser context, detect environment and use appropriate URL
+		if (typeof window !== 'undefined') {
+			const hostname = window.location.hostname;
+			console.log('API client: Browser hostname:', hostname);
+			
+			// If hostname is localhost, we're in local development
+			if (hostname === 'localhost' || hostname === '127.0.0.1') {
+				console.log('API client: Local development mode - using localhost:8080');
+				return 'http://localhost:8080/api';
+			} else {
+				// If not localhost, we're likely in Docker container accessing via host
+				console.log('API client: Docker container mode - using localhost:8080');
+				return 'http://localhost:8080/api';
+			}
+		}
+		
+		// For server-side rendering in Docker, use container service name
+		console.log('API client: Server-side rendering in Docker - using backend:8080');
+		return 'http://backend:8080/api';
 	}
 	
 	// Generic HTTP request method with authentication
@@ -21,11 +47,12 @@ export class ApiClient {
 		// - Provide consistent error handling
 		
 		const url = `${this.baseUrl}${endpoint}`;
+		console.log(`API client: Making request to ${url}`);
 		const token = localStorage.getItem('auth_token');
 		
-		const headers: HeadersInit = {
+		const headers: Record<string, string> = {
 			'Content-Type': 'application/json',
-			...options.headers,
+			...(options.headers as Record<string, string>),
 		};
 		
 		if (token) {
@@ -47,6 +74,11 @@ export class ApiClient {
 	
 	// Authentication API methods
 	async login(email: string, password: string): Promise<AuthResponse> {
+		// Ensure this only runs in browser context
+		if (typeof window === 'undefined') {
+			throw new Error('Login can only be called from browser context');
+		}
+		
 		const loginRequest: LoginRequest = { email, password };
 		return this.request('/auth/login', {
 			method: 'POST',

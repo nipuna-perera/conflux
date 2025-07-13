@@ -68,14 +68,16 @@ func main() {
 	// Initialize service layer with repository dependencies
 	userService := service.NewUserService(userRepo)
 	authService := service.NewAuthService(userRepo, authRepo)
+	devService := service.NewDevService(userService, authService)
 
 	// Set up API handlers with service dependencies
 	healthHandler := apiHandlers.NewHealthHandler(db)
 	authHandler := apiHandlers.NewAuthHandler(authService)
 	userHandler := apiHandlers.NewUserHandler(userService)
+	devHandler := apiHandlers.NewDevHandler(devService)
 
 	// Configure middleware chain and set up routes
-	router := api.SetupRoutes(userHandler, authHandler, healthHandler)
+	router := api.SetupRoutes(userHandler, authHandler, healthHandler, devHandler)
 
 	// Configure CORS
 	corsHandler := handlers.CORS(

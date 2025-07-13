@@ -7,6 +7,11 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
+
+# Set environment variables for build time
+ARG PUBLIC_API_URL=http://localhost:8080
+ENV PUBLIC_API_URL=$PUBLIC_API_URL
+
 RUN npm run build
 
 # Stage 2: Serve the built application

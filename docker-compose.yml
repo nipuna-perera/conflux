@@ -1,7 +1,5 @@
 # Docker Compose configuration for full-stack development environment
 # Orchestrates backend API, frontend app, and database services
-version: '3.8'
-
 services:
   # MySQL database service - primary database option
   mysql:
@@ -47,6 +45,7 @@ services:
       - DB_USER=appuser
       - DB_PASSWORD=apppassword
       - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - ENVIRONMENT=development
     depends_on:
       - mysql
     networks:
@@ -57,10 +56,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        PUBLIC_API_URL: http://localhost:8080
     ports:
       - "3000:3000"
     environment:
       - API_URL=http://backend:8080
+      - PUBLIC_API_URL=http://localhost:8080
     depends_on:
       - backend
     networks:

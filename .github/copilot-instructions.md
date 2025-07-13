@@ -10,6 +10,15 @@
 
 ## Development Workflow
 
+### Branching Strategy
+**ALWAYS create a new branch for any feature, fix, or change:**
+```bash
+git checkout -b feature/your-feature-name
+git checkout -b fix/bug-description
+git checkout -b docs/update-description
+```
+Never commit directly to `main`. All changes must go through feature branches.
+
 ### Essential Commands
 ```bash
 make dev              # Full Docker development environment
@@ -24,6 +33,13 @@ Switch between databases via `DB_TYPE` environment variable:
 - `DB_TYPE=postgres` (port 5432)
 
 Both databases run simultaneously in Docker Compose; the backend connects to one based on config.
+
+### Dependency Management
+**Always use the latest stable versions of dependencies:**
+- Go modules: Use `go get -u` to update to latest versions
+- NPM packages: Use `npm update` or specify `@latest` for new packages
+- Docker images: Use specific tags, prefer latest stable versions
+- Dependabot is configured to automatically suggest updates
 
 ## Critical Patterns
 
@@ -90,6 +106,8 @@ ALLOWED_ORIGINS=http://localhost:3000  # CORS
 3. **Middleware composition** - See `api/routes.go` for auth/logging/recovery chain
 4. **Context propagation** - All repository methods accept `context.Context`
 5. **Configuration via environment** - No hardcoded values, use `config.Load()`
+6. **Feature branch workflow** - Create new branch for every change, no direct commits to main
+7. **Latest dependencies** - Always use latest stable versions, leverage Dependabot for updates
 
 ## Integration Points
 

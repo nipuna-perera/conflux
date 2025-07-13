@@ -35,11 +35,11 @@ Switch between databases via `DB_TYPE` environment variable:
 Both databases run simultaneously in Docker Compose; the backend connects to one based on config.
 
 ### Dependency Management
-**Always use the latest stable versions of dependencies:**
-- Go modules: Use `go get -u` to update to latest versions
-- NPM packages: Use `npm update` or specify `@latest` for new packages
-- Docker images: Use specific tags, prefer latest stable versions
-- Dependabot is configured to automatically suggest updates
+**Always use pinned versions of dependencies:**
+- Go modules: Use `go get -u` to update to latest versions with pinned versions in go.mod
+- NPM packages: Use `npm update` or specify exact versions (e.g., `1.2.3`) - never use `@latest`
+- Docker images: Always use specific tags, never `latest` tag
+- Dependabot is configured to automatically suggest pinned version updates
 
 ## Critical Patterns
 
@@ -107,7 +107,7 @@ ALLOWED_ORIGINS=http://localhost:3000  # CORS
 4. **Context propagation** - All repository methods accept `context.Context`
 5. **Configuration via environment** - No hardcoded values, use `config.Load()`
 6. **Feature branch workflow** - Create new branch for every change, no direct commits to main
-7. **Latest dependencies** - Always use latest stable versions, leverage Dependabot for updates
+7. **Pinned dependencies** - Always use specific versions, leverage Dependabot for updates
 
 ## Integration Points
 

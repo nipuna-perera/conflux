@@ -1,0 +1,168 @@
+# Dependabot configuration for automated dependency updates
+# Monitors and updates dependencies across all package ecosystems in the Conflux project
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Go backend dependencies
+  # Monitors go.mod files for Go module updates
+  - package-ecosystem: "gomod"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "backend"
+      - "go"
+    reviewers:
+      - "nipuna-perera"
+    assignees:
+      - "nipuna-perera"
+
+  # Root Go dependencies (if any)
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "go"
+    reviewers:
+      - "nipuna-perera"
+    assignees:
+      - "nipuna-perera"
+
+  # Frontend npm dependencies
+  # Monitors package.json and package-lock.json for Node.js updates
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "npm"
+    reviewers:
+      - "nipuna-perera"
+    assignees:
+      - "nipuna-perera"
+    # Group minor and patch updates to reduce PR noise
+    groups:
+      frontend-minor:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      frontend-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+
+  # Docker base images in Dockerfiles
+  # Monitors Docker base images for security updates
+  - package-ecosystem: "docker"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "06:00"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "backend"
+    reviewers:
+      - "nipuna-perera"
+    assignees:
+      - "nipuna-perera"
+
+  - package-ecosystem: "docker"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "06:00"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "frontend"
+    reviewers:
+      - "nipuna-perera"
+    assignees:
+      - "nipuna-perera"
+
+  # Docker Compose configurations
+  # Monitors docker-compose.yml files for service image updates
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "06:00"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "infrastructure"
+    reviewers:
+      - "nipuna-perera"
+    assignees:
+      - "nipuna-perera"
+
+  # GitHub Actions workflows
+  # Monitors .github/workflows for action version updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "06:00"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci/cd"
+    reviewers:
+      - "nipuna-perera"
+    assignees:
+      - "nipuna-perera"

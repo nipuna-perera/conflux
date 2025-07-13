@@ -21,11 +21,7 @@ updates:
       - "dependencies"
       - "backend"
       - "go"
-    reviewers:
-      - "nipuna-perera"
-    assignees:
-      - "nipuna-perera"
-
+    
   # Root Go dependencies (if any)
   - package-ecosystem: "gomod"
     directory: "/"
@@ -41,10 +37,6 @@ updates:
     labels:
       - "dependencies"
       - "go"
-    reviewers:
-      - "nipuna-perera"
-    assignees:
-      - "nipuna-perera"
 
   # Frontend npm dependencies
   # Monitors package.json and package-lock.json for Node.js updates
@@ -63,10 +55,6 @@ updates:
       - "dependencies"
       - "frontend"
       - "npm"
-    reviewers:
-      - "nipuna-perera"
-    assignees:
-      - "nipuna-perera"
     # Group minor and patch updates to reduce PR noise
     groups:
       frontend-minor:
@@ -98,10 +86,6 @@ updates:
       - "dependencies"
       - "docker"
       - "backend"
-    reviewers:
-      - "nipuna-perera"
-    assignees:
-      - "nipuna-perera"
 
   - package-ecosystem: "docker"
     directory: "/frontend"
@@ -118,10 +102,6 @@ updates:
       - "dependencies"
       - "docker"
       - "frontend"
-    reviewers:
-      - "nipuna-perera"
-    assignees:
-      - "nipuna-perera"
 
   # Docker Compose configurations
   # Monitors docker-compose.yml files for service image updates
@@ -140,10 +120,6 @@ updates:
       - "dependencies"
       - "docker"
       - "infrastructure"
-    reviewers:
-      - "nipuna-perera"
-    assignees:
-      - "nipuna-perera"
 
   # GitHub Actions workflows
   # Monitors .github/workflows for action version updates
@@ -162,7 +138,3 @@ updates:
       - "dependencies"
       - "github-actions"
       - "ci/cd"
-    reviewers:
-      - "nipuna-perera"
-    assignees:
-      - "nipuna-perera"

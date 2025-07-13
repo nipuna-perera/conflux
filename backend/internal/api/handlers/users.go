@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"configarr/internal/service"
-	"configarr/pkg/utils"
+	"conflux/internal/service"
+	"conflux/pkg/utils"
 
 	"github.com/gorilla/mux"
 )

@@ -7,9 +7,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"configarr/internal/models"
-	"configarr/internal/service"
-	"configarr/pkg/utils"
+	"conflux/internal/models"
+	"conflux/internal/service"
+	"conflux/pkg/utils"
 )
 
 // AuthHandler handles authentication HTTP requests

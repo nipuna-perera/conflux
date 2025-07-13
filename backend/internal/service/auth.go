@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"time"
 
-	"configarr/internal/models"
-	"configarr/pkg/jwt"
-	"configarr/pkg/utils"
+	"conflux/internal/models"
+	"conflux/pkg/jwt"
+	"conflux/pkg/utils"
 )
 
 // AuthRepository defines data access methods for authentication
@@ -30,7 +30,7 @@ type AuthService struct {
 // NewAuthService creates authentication service with dependencies
 func NewAuthService(userRepo UserRepository, authRepo AuthRepository) *AuthService {
 	// Initialize token manager with a default secret (should come from config)
-	tokenManager := jwt.NewTokenManager("default-secret", "configarr")
+	tokenManager := jwt.NewTokenManager("default-secret", "conflux")
 
 	return &AuthService{
 		userRepo:     userRepo,

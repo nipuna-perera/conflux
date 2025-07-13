@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strings"
 
-	"configarr/pkg/jwt"
-	"configarr/pkg/utils"
+	"conflux/pkg/jwt"
+	"conflux/pkg/utils"
 )
 
 // UserContextKey is the key for storing user in context
@@ -43,7 +43,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		token := authHeader[7:] // Remove "Bearer " prefix
 
 		// Validate token
-		tokenManager := jwt.NewTokenManager("default-secret", "configarr") // Should come from config
+		tokenManager := jwt.NewTokenManager("default-secret", "conflux") // Should come from config
 		claims, err := tokenManager.ValidateToken(token)
 		if err != nil {
 			utils.ErrorResponse(w, http.StatusUnauthorized, "Invalid token")
@@ -64,7 +64,7 @@ func OptionalAuthMiddleware(next http.Handler) http.Handler {
 		authHeader := r.Header.Get("Authorization")
 		if authHeader != "" && strings.HasPrefix(authHeader, "Bearer ") {
 			token := authHeader[7:]
-			tokenManager := jwt.NewTokenManager("default-secret", "configarr")
+			tokenManager := jwt.NewTokenManager("default-secret", "conflux")
 			if claims, err := tokenManager.ValidateToken(token); err == nil {
 				ctx := context.WithValue(r.Context(), UserKey, claims)
 				r = r.WithContext(ctx)

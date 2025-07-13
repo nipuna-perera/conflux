@@ -1,6 +1,10 @@
-# Full-Stack Application
+# Conflux
 
-A modern full-stack web application built with Go backend and SvelteKit frontend.
+A modern configuration management platform with format flexibility and version control, built with Go backend and SvelteKit frontend.
+
+## Overview
+
+Conflux is a comprehensive configuration management solution that allows you to manage configuration files across multiple formats (YAML, JSON, TOML, ENV) with built-in version control, template support, and format conversion capabilities.
 
 ## Architecture
 

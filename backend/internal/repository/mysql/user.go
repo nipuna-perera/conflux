@@ -8,7 +8,7 @@ import (
 	"database/sql"
 	"time"
 
-	"configarr/internal/models"
+	"conflux/internal/models"
 )
 
 // UserRepository implements repository.UserRepository for MySQL

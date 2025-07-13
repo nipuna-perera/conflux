@@ -7,7 +7,7 @@ import (
 	"context"
 	"database/sql"
 
-	"configarr/internal/models"
+	"conflux/internal/models"
 )
 
 // UserRepository implements repository.UserRepository for PostgreSQL

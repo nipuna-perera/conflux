@@ -6,8 +6,8 @@ package api
 import (
 	"net/http"
 
-	"configarr/internal/api/handlers"
-	"configarr/internal/api/middleware"
+	"conflux/internal/api/handlers"
+	"conflux/internal/api/middleware"
 
 	"github.com/gorilla/mux"
 )

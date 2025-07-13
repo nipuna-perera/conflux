@@ -8,7 +8,7 @@ import (
 	"database/sql"
 	"time"
 
-	"configarr/internal/models"
+	"conflux/internal/models"
 )
 
 // AuthRepository implements service.AuthRepository for PostgreSQL

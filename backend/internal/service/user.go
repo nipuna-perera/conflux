@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"configarr/internal/models"
-	"configarr/pkg/utils"
+	"conflux/internal/models"
+	"conflux/pkg/utils"
 )
 
 // UserRepository defines data access methods for user entities

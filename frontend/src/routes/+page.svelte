@@ -11,19 +11,19 @@
 
 <!-- SEO meta tags for home page -->
 <svelte:head>
-	<title>Full-Stack App - Home</title>
-	<meta name="description" content="Welcome to our full-stack application" />
+	<title>Conflux - Configuration Management for Self-Hosted Apps</title>
+	<meta name="description" content="Manage configuration files for your self-hosted applications with version control, format conversion, and template support" />
 </svelte:head>
 
 <!-- Home page content -->
 <div class="container mx-auto px-4 py-8">
 	<section class="text-center py-16">
 		<h1 class="text-4xl font-bold mb-4">
-			Welcome to Full-Stack App
+			Welcome to Conflux
 		</h1>
 		
 		<p class="text-xl text-gray-600 mb-8">
-			Modern web application with Go backend and SvelteKit frontend
+			Configuration management for self-hosted applications with version control and format flexibility
 		</p>
 		
 		{#if isAuthenticated}
@@ -49,18 +49,18 @@
 	
 	<section class="grid md:grid-cols-3 gap-8 mt-16">
 		<div class="text-center p-6 bg-white rounded-lg shadow-sm">
-			<h3 class="text-lg font-semibold mb-2">Go Backend</h3>
-			<p class="text-gray-600">Robust API built with Go, featuring clean architecture and database flexibility.</p>
+			<h3 class="text-lg font-semibold mb-2">Configuration Templates</h3>
+			<p class="text-gray-600">Pre-built templates for popular self-hosted applications like cross-seed, with automatic format detection.</p>
 		</div>
 		
 		<div class="text-center p-6 bg-white rounded-lg shadow-sm">
-			<h3 class="text-lg font-semibold mb-2">SvelteKit Frontend</h3>
-			<p class="text-gray-600">Modern, reactive frontend with TypeScript and Tailwind CSS.</p>
+			<h3 class="text-lg font-semibold mb-2">Version Control</h3>
+			<p class="text-gray-600">Track changes to your configurations with full version history and easy rollback capabilities.</p>
 		</div>
 		
 		<div class="text-center p-6 bg-white rounded-lg shadow-sm">
-			<h3 class="text-lg font-semibold mb-2">Authentication</h3>
-			<p class="text-gray-600">Secure JWT-based authentication with session management.</p>
+			<h3 class="text-lg font-semibold mb-2">Format Conversion</h3>
+			<p class="text-gray-600">Convert between YAML, JSON, TOML, and ENV formats with real-time validation and syntax highlighting.</p>
 		</div>
 	</section>
 </div>

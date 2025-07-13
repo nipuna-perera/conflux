@@ -1,4 +1,4 @@
-module configarr
+module conflux
 
 go 1.21
 
@@ -15,4 +15,8 @@ require (
 	github.com/joho/godotenv v1.4.0
 )
 
-require github.com/felixge/httpsnoop v1.0.1 // indirect
+require (
+	github.com/BurntSushi/toml v1.5.0 // indirect
+	github.com/felixge/httpsnoop v1.0.1 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+)

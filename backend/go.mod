@@ -11,12 +11,10 @@ require (
 )
 
 require (
+	github.com/BurntSushi/toml v1.5.0
 	github.com/gorilla/handlers v1.5.1
 	github.com/joho/godotenv v1.4.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
-require (
-	github.com/BurntSushi/toml v1.5.0 // indirect
-	github.com/felixge/httpsnoop v1.0.1 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
-)
+require github.com/felixge/httpsnoop v1.0.1 // indirect

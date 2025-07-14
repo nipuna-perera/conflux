@@ -130,7 +130,7 @@
 						on:change={handleCategoryChange}
 					>
 						<option value="">All Categories</option>
-						{#each categories.slice(1) as category}
+						{#each categories.slice(1) as category (category)}
 							<option value={category}>{category.charAt(0).toUpperCase() + category.slice(1)}</option>
 						{/each}
 					</select>
@@ -141,7 +141,7 @@
 		<!-- Templates Grid -->
 		{#if $templatesStore.loading}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-				{#each Array(6) as _}
+				{#each Array(6) as _, i (i)}
 					<div class="bg-white shadow rounded-lg p-6 animate-pulse">
 						<div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
 						<div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
@@ -166,7 +166,7 @@
 			</div>
 		{:else if $templatesStore.templates.length > 0}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-				{#each $templatesStore.templates as template}
+				{#each $templatesStore.templates as template (template.id)}
 					<div class="bg-white shadow rounded-lg p-6 hover:shadow-lg transition-shadow">
 						<div class="flex items-start justify-between mb-4">
 							<div class="flex-1">

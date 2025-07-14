@@ -6,11 +6,23 @@ import type {
 	ConfigTemplate,
 	UserConfig,
 	ConfigVersion,
-	ConfigFormat,
-	ConversionResult,
-	FormatDetectionResult
+	ConfigFormat
 } from '../types/config';
 import { configAPI } from '../utils/configApi';
+
+// Type for the editor store state
+type EditorState = {
+	config: UserConfig | null;
+	content: string;
+	format: ConfigFormat;
+	isDirty: boolean;
+	isValid: boolean;
+	validationError: string | null;
+	versions: ConfigVersion[];
+	loading: boolean;
+	saving: boolean;
+	error: string | null;
+};
 
 // Templates store
 function createTemplatesStore() {
@@ -197,18 +209,7 @@ function createConfigsStore() {
 
 // Configuration editor store
 function createEditorStore() {
-	const { subscribe, set, update } = writable<{
-		config: UserConfig | null;
-		content: string;
-		format: ConfigFormat;
-		isDirty: boolean;
-		isValid: boolean;
-		validationError: string | null;
-		versions: ConfigVersion[];
-		loading: boolean;
-		saving: boolean;
-		error: string | null;
-	}>({
+	const { subscribe, set, update } = writable<EditorState>({
 		config: null,
 		content: '',
 		format: 'yaml',
@@ -260,7 +261,7 @@ function createEditorStore() {
 			}));
 		},
 		async changeFormat(newFormat: ConfigFormat) {
-			const state = await new Promise<any>(resolve => {
+			const state = await new Promise<EditorState>(resolve => {
 				const unsubscribe = subscribe(resolve);
 				unsubscribe();
 			});
@@ -290,7 +291,7 @@ function createEditorStore() {
 			}
 		},
 		async detectFormat() {
-			const state = await new Promise<any>(resolve => {
+			const state = await new Promise<EditorState>(resolve => {
 				const unsubscribe = subscribe(resolve);
 				unsubscribe();
 			});
@@ -308,7 +309,7 @@ function createEditorStore() {
 			}
 		},
 		async validateConfig() {
-			const state = await new Promise<any>(resolve => {
+			const state = await new Promise<EditorState>(resolve => {
 				const unsubscribe = subscribe(resolve);
 				unsubscribe();
 			});
@@ -336,7 +337,7 @@ function createEditorStore() {
 			}
 		},
 		async saveConfig(changeNote: string) {
-			const state = await new Promise<any>(resolve => {
+			const state = await new Promise<EditorState>(resolve => {
 				const unsubscribe = subscribe(resolve);
 				unsubscribe();
 			});
@@ -372,7 +373,7 @@ function createEditorStore() {
 			}
 		},
 		async restoreVersion(versionId: number) {
-			const state = await new Promise<any>(resolve => {
+			const state = await new Promise<EditorState>(resolve => {
 				const unsubscribe = subscribe(resolve);
 				unsubscribe();
 			});

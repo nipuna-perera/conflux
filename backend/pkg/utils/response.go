@@ -14,7 +14,12 @@ func JSONResponse(w http.ResponseWriter, statusCode int, data interface{}) {
 	// JSON response implementation
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(data)
+
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		// Log error but don't try to send another response as headers are already written
+		// In a production environment, you might want to log this error
+		return
+	}
 }
 
 // ErrorResponse sends standardized error response

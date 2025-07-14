@@ -183,13 +183,13 @@
 						
 						{#if $configsStore.loading}
 							<div class="animate-pulse space-y-3">
-								{#each Array(3) as _}
+								{#each Array(3) as _, i (i)}
 									<div class="h-4 bg-gray-200 rounded w-3/4"></div>
 								{/each}
 							</div>
 						{:else if $configsStore.configs.length > 0}
 							<div class="space-y-3">
-								{#each $configsStore.configs.slice(0, 5) as config}
+								{#each $configsStore.configs.slice(0, 5) as config (config.id)}
 									<div class="flex items-center justify-between p-3 border border-gray-200 rounded-md">
 										<div>
 											<p class="text-sm font-medium text-gray-900">{config.name}</p>
@@ -220,13 +220,13 @@
 						
 						{#if $templatesStore.loading}
 							<div class="animate-pulse space-y-3">
-								{#each Array(3) as _}
+								{#each Array(3) as _, i (i)}
 									<div class="h-4 bg-gray-200 rounded w-3/4"></div>
 								{/each}
 							</div>
 						{:else if $templatesStore.templates.length > 0}
 							<div class="space-y-3">
-								{#each $templatesStore.templates.slice(0, 5) as template}
+								{#each $templatesStore.templates.slice(0, 5) as template (template.id)}
 									<div class="flex items-center justify-between p-3 border border-gray-200 rounded-md">
 										<div>
 											<p class="text-sm font-medium text-gray-900">{template.display_name}</p>

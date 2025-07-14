@@ -20,6 +20,12 @@ test: ## Run all tests
 	cd backend && go test ./...
 	cd frontend && npm test
 
+lint: ## Run linters for both backend and frontend
+	@echo "Running backend linter..."
+	cd backend && golangci-lint run --config .golangci.yml
+	@echo "Running frontend linter..."
+	cd frontend && npm run lint
+
 clean: ## Clean up containers and volumes
 	docker-compose down -v
 	docker system prune -f

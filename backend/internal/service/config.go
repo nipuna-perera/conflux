@@ -104,7 +104,7 @@ func (s *ConfigService) DeleteTemplate(id int) error {
 // User Configuration Management
 
 // CreateUserConfig creates a new user configuration from a template
-func (s *ConfigService) CreateUserConfig(userID int, templateID int, name string) (*models.UserConfig, error) {
+func (s *ConfigService) CreateUserConfig(userID, templateID int, name string) (*models.UserConfig, error) {
 	template, err := s.configRepo.GetTemplate(templateID)
 	if err != nil {
 		return nil, fmt.Errorf("template not found: %w", err)
@@ -133,7 +133,7 @@ func (s *ConfigService) CreateUserConfig(userID int, templateID int, name string
 }
 
 // GetUserConfig retrieves a user configuration by ID
-func (s *ConfigService) GetUserConfig(id int, userID int) (*models.UserConfig, error) {
+func (s *ConfigService) GetUserConfig(id, userID int) (*models.UserConfig, error) {
 	config, err := s.configRepo.GetUserConfig(id)
 	if err != nil {
 		return nil, err
@@ -152,7 +152,9 @@ func (s *ConfigService) GetUserConfigs(userID int, templateID *int, page, limit 
 }
 
 // UpdateUserConfig updates a user configuration and creates a new version
-func (s *ConfigService) UpdateUserConfig(id int, userID int, content, changeNote string, format *models.ConfigFormat) (*models.UserConfig, error) {
+func (s *ConfigService) UpdateUserConfig(
+	id, userID int, content, changeNote string, format *models.ConfigFormat,
+) (*models.UserConfig, error) {
 	config, err := s.GetUserConfig(id, userID)
 	if err != nil {
 		return nil, err
@@ -188,7 +190,7 @@ func (s *ConfigService) UpdateUserConfig(id int, userID int, content, changeNote
 }
 
 // DeleteUserConfig deletes a user configuration
-func (s *ConfigService) DeleteUserConfig(id int, userID int) error {
+func (s *ConfigService) DeleteUserConfig(id, userID int) error {
 	config, err := s.GetUserConfig(id, userID)
 	if err != nil {
 		return err
@@ -200,7 +202,7 @@ func (s *ConfigService) DeleteUserConfig(id int, userID int) error {
 // Version Management
 
 // GetConfigVersions retrieves version history for a configuration
-func (s *ConfigService) GetConfigVersions(configID int, userID int, page, limit int) ([]*models.ConfigVersion, int64, error) {
+func (s *ConfigService) GetConfigVersions(configID, userID, page, limit int) ([]*models.ConfigVersion, int64, error) {
 	// Verify user owns the configuration
 	if _, err := s.GetUserConfig(configID, userID); err != nil {
 		return nil, 0, err
@@ -210,7 +212,7 @@ func (s *ConfigService) GetConfigVersions(configID int, userID int, page, limit 
 }
 
 // GetConfigVersion retrieves a specific version
-func (s *ConfigService) GetConfigVersion(versionID int, userID int) (*models.ConfigVersion, error) {
+func (s *ConfigService) GetConfigVersion(versionID, userID int) (*models.ConfigVersion, error) {
 	version, err := s.configRepo.GetConfigVersion(versionID)
 	if err != nil {
 		return nil, err
@@ -225,7 +227,7 @@ func (s *ConfigService) GetConfigVersion(versionID int, userID int) (*models.Con
 }
 
 // RestoreConfigVersion restores a configuration to a previous version
-func (s *ConfigService) RestoreConfigVersion(configID int, versionID int, userID int) (*models.UserConfig, error) {
+func (s *ConfigService) RestoreConfigVersion(configID, versionID, userID int) (*models.UserConfig, error) {
 	// Verify user owns the configuration
 	if _, err := s.GetUserConfig(configID, userID); err != nil {
 		return nil, err
@@ -278,7 +280,9 @@ func (s *ConfigService) ValidateConfig(content string, format models.ConfigForma
 }
 
 // ImportConfig imports configuration from external source
-func (s *ConfigService) ImportConfig(userID int, sourceType models.ConfigSourceType, sourceURL string) (*models.ConfigImport, error) {
+func (s *ConfigService) ImportConfig(
+	userID int, sourceType models.ConfigSourceType, sourceURL string,
+) (*models.ConfigImport, error) {
 	// Create import record
 	importRecord := &models.ConfigImport{
 		UserID:     userID,
@@ -299,7 +303,7 @@ func (s *ConfigService) ImportConfig(userID int, sourceType models.ConfigSourceT
 }
 
 // ExportConfig exports configuration in specified format
-func (s *ConfigService) ExportConfig(configID int, userID int, format models.ConfigFormat) (string, error) {
+func (s *ConfigService) ExportConfig(configID, userID int, format models.ConfigFormat) (string, error) {
 	config, err := s.GetUserConfig(configID, userID)
 	if err != nil {
 		return "", err

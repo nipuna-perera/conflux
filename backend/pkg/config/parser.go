@@ -218,7 +218,7 @@ func (p *Parser) serializeTOML(data map[string]interface{}) (string, error) {
 }
 
 func (p *Parser) serializeEnv(data map[string]interface{}) (string, error) {
-	var lines []string
+	lines := make([]string, 0, len(data))
 
 	for key, value := range data {
 		// Convert value to string
@@ -241,7 +241,7 @@ func (p *Parser) serializeEnv(data map[string]interface{}) (string, error) {
 
 		// Quote values that contain spaces or special characters
 		if strings.ContainsAny(valueStr, " \t\n\"'\\") {
-			valueStr = fmt.Sprintf("\"%s\"", strings.ReplaceAll(valueStr, "\"", "\\\""))
+			valueStr = fmt.Sprintf("%q", strings.ReplaceAll(valueStr, "\"", "\\\""))
 		}
 
 		lines = append(lines, fmt.Sprintf("%s=%s", key, valueStr))

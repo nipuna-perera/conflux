@@ -13,13 +13,16 @@ declare global {
 			};
 		}
 		
-		// Page data interface
+		// Page data interface - extend as needed for typed page data
+		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 		interface PageData {}
 		
-		// Error interface for custom error pages
+		// Error interface for custom error pages - extend as needed
+		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 		interface Error {}
 		
-		// Platform interface for deployment-specific features
+		// Platform interface for deployment-specific features - extend as needed
+		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 		interface Platform {}
 	}
 }

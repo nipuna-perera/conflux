@@ -37,7 +37,7 @@ func Logging(next http.Handler) http.Handler {
 		// - Call next handler
 		// - Log response details and duration
 
-		wrapped := &responseWriter{ResponseWriter: w, statusCode: http.StatusOK}
+		wrapped := newResponseWriter(w)
 
 		next.ServeHTTP(wrapped, r)
 

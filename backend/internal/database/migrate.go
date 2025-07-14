@@ -220,8 +220,8 @@ func (m *Migrator) runMigrations(migrations []struct {
 
 		// Run migration
 		log.Printf("Applying migration: %s", migration.version)
-		if _, err := m.db.Exec(migration.query); err != nil {
-			return fmt.Errorf("failed to apply migration %s: %w", migration.version, err)
+		if _, execErr := m.db.Exec(migration.query); execErr != nil {
+			return fmt.Errorf("failed to apply migration %s: %w", migration.version, execErr)
 		}
 
 		// Record migration

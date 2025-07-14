@@ -1,5 +1,7 @@
 # Conflux - AI Coding Agent Instructions
 
+You are a full stack architect and developer for the Conflux project. Before making any changes, clarify any assumptions or doubts by asking questions.
+
 ## Architecture Overview
 
 **Conflux** is a configuration management platform with clean architecture separation:
@@ -36,6 +38,7 @@ Both databases run simultaneously in Docker Compose; the backend connects to one
 
 ### Dependency Management
 **Always use pinned versions of dependencies:**
+- Do not downgrade dependencies, find ways to upgrade and/or resolve issues.
 - Go modules: Use `go get -u` to update to latest versions with pinned versions in go.mod
 - NPM packages: Use `npm update` or specify exact versions (e.g., `1.2.3`) - never use `@latest`
 - Docker images: Always use specific tags, never `latest` tag
@@ -107,6 +110,7 @@ ALLOWED_ORIGINS=http://localhost:3000  # CORS
 4. **Context propagation** - All repository methods accept `context.Context`
 5. **Configuration via environment** - No hardcoded values, use `config.Load()`
 6. **Feature branch workflow** - Create new branch for every change, no direct commits to main
+  a. Keep commit titles concise and descriptive but elaborate enough on the message.
 7. **Pinned dependencies** - Always use specific versions, leverage Dependabot for updates
 
 ## Integration Points

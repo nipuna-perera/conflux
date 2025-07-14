@@ -5,7 +5,9 @@ const BACKEND_URL = 'http://backend:8080/api';
 
 export async function POST({ request }: { request: Request }) {
 	try {
-		console.log('Login proxy called');
+		if (import.meta.env.DEV) {
+			console.log('Login proxy called');
+		}
 		
 		const headers: Record<string, string> = {};
 		
@@ -17,8 +19,10 @@ export async function POST({ request }: { request: Request }) {
 		}
 		
 		const body = await request.text();
-		console.log('Forwarding to:', `${BACKEND_URL}/auth/login`);
-		console.log('Body:', body);
+		if (import.meta.env.DEV) {
+			console.log('Forwarding to:', `${BACKEND_URL}/auth/login`);
+			console.log('Body:', body);
+		}
 		
 		const response = await fetch(`${BACKEND_URL}/auth/login`, {
 			method: 'POST',
@@ -27,7 +31,9 @@ export async function POST({ request }: { request: Request }) {
 		});
 		
 		const responseText = await response.text();
-		console.log('Backend response:', responseText);
+		if (import.meta.env.DEV) {
+			console.log('Backend response:', responseText);
+		}
 		
 		// Try to parse as JSON, fallback to text
 		let responseData;

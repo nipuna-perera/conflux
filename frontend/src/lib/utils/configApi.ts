@@ -5,7 +5,6 @@ import { apiClient } from './api';
 import type {
 	ConfigTemplate,
 	UserConfig,
-	ConfigVersion,
 	ConfigImport,
 	CreateConfigRequest,
 	UpdateConfigRequest,
@@ -36,7 +35,8 @@ class ConfigAPI {
 		if (params?.page) searchParams.set('page', params.page.toString());
 		if (params?.limit) searchParams.set('limit', params.limit.toString());
 
-		const url = `/templates${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
+		const searchParamsString = searchParams.toString();
+		const url = `/templates${searchParamsString ? `?${searchParamsString}` : ''}`;
 		return apiClient.request(url);
 	}
 
@@ -75,7 +75,8 @@ class ConfigAPI {
 		if (params?.page) searchParams.set('page', params.page.toString());
 		if (params?.limit) searchParams.set('limit', params.limit.toString());
 
-		const url = `/configs${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
+		const searchParamsString = searchParams.toString();
+		const url = `/configs${searchParamsString ? `?${searchParamsString}` : ''}`;
 		return apiClient.request(url);
 	}
 
@@ -112,7 +113,8 @@ class ConfigAPI {
 		if (params?.page) searchParams.set('page', params.page.toString());
 		if (params?.limit) searchParams.set('limit', params.limit.toString());
 
-		const url = `/configs/${configId}/versions${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
+		const searchParamsString = searchParams.toString();
+		const url = `/configs/${configId}/versions${searchParamsString ? `?${searchParamsString}` : ''}`;
 		return apiClient.request(url);
 	}
 

@@ -113,6 +113,39 @@ ALLOWED_ORIGINS=http://localhost:3000  # CORS
   a. Keep commit titles concise and descriptive but elaborate enough on the message.
 7. **Pinned dependencies** - Always use specific versions, leverage Dependabot for updates
 
+## Rules for Generating Go Code
+
+### 1. General Philosophy & Style
+- **Act as an expert Go developer.** Adhere strictly to the principles of "Effective Go" and community-established best practices.
+- **Prioritize clarity and simplicity.** Write simple, readable, and maintainable code. Avoid unnecessary complexity or "clever" shortcuts.
+- **Standard Library First.** Heavily favor the Go standard library. Only suggest third-party libraries for essential, well-defined problems (e.g., advanced routing, structured logging), and choose popular, well-maintained options.
+- **Enforce `gofmt` formatting** and follow standard Go naming conventions (`PascalCase` for exported, `camelCase` for internal).
+
+### 2. Error Handling
+- **Never `panic` for recoverable errors.** This is a strict rule. Always return an `error` value.
+- **Wrap errors with context.** Use `fmt.Errorf` with the `%w` verb to provide a meaningful error trail. Do not discard the original error.
+- **Check for specific errors** correctly using `errors.Is` for sentinel errors and `errors.As` for specific error types. Do not compare error strings.
+- **Explicitly handle all potential errors**, including I/O failures, resource leaks (`defer file.Close()`), `nil` pointers, and invalid inputs.
+
+### 3. Concurrency
+- **Ensure concurrency safety.** When using goroutines, prevent race conditions via channels (preferred for communication) or mutexes (for protecting shared state).
+- **Implement graceful shutdown.** Use `context.Context` to manage the lifecycle of goroutines, allowing them to terminate cleanly on an application stop signal.
+- **Propagate `context.Context`** as the first argument in function calls across API boundaries and other long-lived operations.
+
+### 4. Code Structure & APIs
+- **Use interfaces to decouple components.** The code consuming a dependency should define the small interface it needs. This makes code more modular and easier to test.
+- **Keep structs small and focused** on a single responsibility.
+- **Return structs, not interfaces**, unless multiple, distinct implementations of the struct's behavior are expected.
+
+### 5. Testing
+- **Always generate table-driven tests** using the standard `testing` package. This is the idiomatic standard for Go testing.
+- **Ensure test cases cover** the success path, all primary error conditions, and important edge cases (e.g., zero values, empty slices).
+- **Use mocks/stubs for external dependencies.** For HTTP services, use the `net/http/httptest` package. For database interactions, use the interfaces you defined.
+- **Use `t.Helper()`** in all test helper functions to provide accurate failure location reporting.
+
+### 6. Documentation
+- **Write clear GoDoc comments** for all exported functions, types, constants, and variables. Explain *what* the component does and *why* it exists.
+
 ## Integration Points
 
 - **API Base URL**: Frontend uses `API_URL=http://backend:8080` in Docker

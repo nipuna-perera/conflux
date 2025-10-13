@@ -1,13 +1,13 @@
 module conflux
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/golang-jwt/jwt/v5 v5.2.3
 	github.com/gorilla/mux v1.8.1
 	github.com/lib/pq v1.10.9
-	golang.org/x/crypto v0.40.0
+	golang.org/x/crypto v0.43.0
 )
 
 require (

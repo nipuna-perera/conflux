@@ -18,6 +18,6 @@ require (
 )
 
 require (
-	filippo.io/edwards25519 v1.1.0 // indirect
+	filippo.io/edwards25519 v1.1.1 // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 )
